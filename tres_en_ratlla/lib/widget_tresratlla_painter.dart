@@ -21,7 +21,6 @@ class WidgetTresRatllaPainter extends CustomPainter {
       canvas.drawLine(Offset(firstVertical * i, 0),
           Offset(firstVertical * i, size.height), paint);
     }
-    // Dibuixem les línies verticals
 
     // Definim els punts on es creuaran les línies horitzontals
     final double firstHorizontal = size.height / colu;
@@ -110,7 +109,7 @@ class WidgetTresRatllaPainter extends CustomPainter {
             case "9x9":
               colu = 9;
               break;
-            case "Verd":
+            case "15x15":
               colu = 15;
               break;
             case "Gris":

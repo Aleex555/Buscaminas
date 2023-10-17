@@ -89,7 +89,7 @@ class LayoutSettingsState extends State<LayoutSettings> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text("Color jugador: "),
+              const Text("Elige el tamaño del tablero: "),
               CupertinoButton(
                 onPressed: () => _showPicker("player"),
                 child: Text(appData.tablero),
