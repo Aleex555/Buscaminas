@@ -30,9 +30,12 @@ class WidgetTresRatllaState extends State<WidgetTresRatlla> {
     return GestureDetector(
       onTapUp: (TapUpDetails details) {
         final int row =
-            (details.localPosition.dy / (context.size!.height / 3)).floor();
+            //cambio--------
+            (details.localPosition.dy / (context.size!.height / appData.numero))
+                .floor();
         final int col =
-            (details.localPosition.dx / (context.size!.width / 3)).floor();
+            (details.localPosition.dx / (context.size!.width / appData.numero))
+                .floor();
 
         appData.playMove(row, col);
         setState(() {}); // Actualitza la vista
@@ -51,13 +54,14 @@ class WidgetTresRatllaState extends State<WidgetTresRatlla> {
               return const CupertinoActivityIndicator();
             } else {
               return GestureDetector(
+                //CAMBIO------
                 onTapUp: (TapUpDetails details) {
-                  final int row =
-                      (details.localPosition.dy / (context.size!.height / 3))
-                          .floor();
-                  final int col =
-                      (details.localPosition.dx / (context.size!.width / 3))
-                          .floor();
+                  final int row = (details.localPosition.dy /
+                          (context.size!.height / appData.numero))
+                      .floor();
+                  final int col = (details.localPosition.dx /
+                          (context.size!.width / appData.numero))
+                      .floor();
 
                   appData.playMove(row, col);
                   setState(() {}); // Actualitza la vista
@@ -69,7 +73,7 @@ class WidgetTresRatllaState extends State<WidgetTresRatlla> {
                   height: MediaQuery.of(context).size.height -
                       56.0, // Ocupa tota l'altura disponible menys l'altura de l'AppBar
                   child: CustomPaint(
-                    painter: WidgetTresRatllaPainter(appData, 6, 6),
+                    painter: WidgetTresRatllaPainter(appData, appData.numero),
                   ),
                 ),
               );

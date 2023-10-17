@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 class AppData with ChangeNotifier {
   // App status
-  String colorPlayer = "Verd";
-  String colorOpponent = "Taronja";
+  String tablero = "9x9"; // Opción predeterminada
+  int numero = 9;
 
   List<List<String>> board = [];
   bool gameIsOver = false;
@@ -17,9 +17,12 @@ class AppData with ChangeNotifier {
 
   void resetGame() {
     board = [
-      ['-', '-', '-'],
-      ['-', '-', '-'],
-      ['-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-'],
     ];
     gameIsOver = false;
     gameWinner = '-';
