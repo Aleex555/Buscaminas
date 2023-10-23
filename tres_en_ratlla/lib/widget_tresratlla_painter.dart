@@ -116,7 +116,6 @@ class WidgetTresRatllaPainter extends CustomPainter {
               color = Colors.grey;
               break;
           }
-
           double x0 = j * cellWidth;
           double y0 = i * cellHeight;
           double x1 = (j + 1) * cellWidth;

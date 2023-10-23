@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,7 @@ class AppData with ChangeNotifier {
   // App status
   String tablero = "9x9"; // Opción predeterminada
   int numero = 9;
+  int minas = 5;
 
   List<List<String>> board = [];
   bool gameIsOver = false;
@@ -14,6 +16,32 @@ class AppData with ChangeNotifier {
   ui.Image? imagePlayer;
   ui.Image? imageOpponent;
   bool imagesReady = false;
+
+  List<List<String>> addRandomBs(List<List<String>> board, int numBs) {
+    final numRows = board.length;
+    final numCols = board[0].length;
+
+    if (numBs > numRows * numCols) {
+      print("El número de 'b's a añadir es mayor que el tamaño del tablero.");
+      return board;
+    }
+
+    final updatedBoard = List<List<String>>.from(board);
+    int addedBs = 0;
+    final random = Random();
+
+    while (addedBs < numBs) {
+      final row = random.nextInt(numRows);
+      final col = random.nextInt(numCols);
+
+      if (updatedBoard[row][col] == '-') {
+        updatedBoard[row][col] = 'b';
+        addedBs++;
+      }
+    }
+
+    return updatedBoard;
+  }
 
   void resetGame() {
     if (numero == 9) {
@@ -28,6 +56,7 @@ class AppData with ChangeNotifier {
         ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
         ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
       ];
+      board = addRandomBs(board, minas);
     } else if (numero == 15) {
       board = [
         [
@@ -286,6 +315,10 @@ class AppData with ChangeNotifier {
           '-'
         ],
       ];
+      board = addRandomBs(board, minas);
+      for (var row in board) {
+        print(row.join(' '));
+      }
     }
 
     gameIsOver = false;
@@ -296,6 +329,13 @@ class AppData with ChangeNotifier {
   void playMove(int row, int col) {
     if (board[row][col] == '-') {
       board[row][col] = 'X';
+      checkGameWinner();
+      if (gameWinner == '-') {
+        machinePlay();
+      }
+    }
+    if (board[row][col] == 'b') {
+      print("BOOOOM");
       checkGameWinner();
       if (gameWinner == '-') {
         machinePlay();

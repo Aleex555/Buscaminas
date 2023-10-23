@@ -11,15 +11,18 @@ class LayoutSettings extends StatefulWidget {
 
 class LayoutSettingsState extends State<LayoutSettings> {
   List<String> tableros = ["9x9", "15x15"];
+  List<int> minas = [5, 10, 15];
 
-  // Mostra el CupertinoPicker en un diàleg.
+  // Mostrar el CupertinoPicker en un diálogo.
   void _showPicker(String type) {
-    List<String> options = tableros;
-    String title = "Selecciona el tablero";
+    List<dynamic> options = type == "player" ? tableros : minas;
+    String title = type == "player"
+        ? "Selecciona el tablero"
+        : "Selecciona la cantidad de minas";
 
-    // Troba l'índex de la opció actual a la llista d'opcions
+    // Encontrar el índice de la opción actual en la lista de opciones
     AppData appData = Provider.of<AppData>(context, listen: false);
-    String currentValue = appData.tablero;
+    dynamic currentValue = type == "player" ? appData.tablero : appData.minas;
     int currentIndex = options.indexOf(currentValue);
     FixedExtentScrollController scrollController =
         FixedExtentScrollController(initialItem: currentIndex);
@@ -56,15 +59,17 @@ class LayoutSettingsState extends State<LayoutSettings> {
                       appData.tablero = options[index];
                       appData.numero =
                           int.parse(appData.tablero.split('x').first);
+                    } else if (type == "minas") {
+                      appData.minas = options[index];
                     }
                     setState(() {});
                   },
                   children: options
-                      .map((color) => Center(child: Text(color)))
+                      .map((option) => Center(child: Text(option.toString())))
                       .toList(),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -93,6 +98,13 @@ class LayoutSettingsState extends State<LayoutSettings> {
               CupertinoButton(
                 onPressed: () => _showPicker("player"),
                 child: Text(appData.tablero),
+              )
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              const Text("Elige la cantidad de minas: "),
+              CupertinoButton(
+                onPressed: () => _showPicker("minas"),
+                child: Text(appData.minas.toString()),
               )
             ]),
           ],
