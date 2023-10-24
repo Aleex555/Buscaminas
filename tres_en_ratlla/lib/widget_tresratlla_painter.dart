@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart'; // per a 'CustomPainter'
 import 'app_data.dart';
@@ -81,26 +80,14 @@ class WidgetTresRatllaPainter extends CustomPainter {
     );
   }
 
-  // Dibuixa un cercle centrat a una casella del taulell
-  void drawCircle(Canvas canvas, double x, double y, double radius, Color color,
-      double strokeWidth) {
-    final paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..color = color
-      ..strokeWidth = strokeWidth;
-    canvas.drawCircle(Offset(x, y), radius, paint);
-  }
-
   // Dibuixa el taulell de joc (creus i rodones)
   void drawBoardStatus(Canvas canvas, Size size) {
     double cellWidth = size.width / colu;
     double cellHeight = size.height / colu;
-
     for (int i = 0; i < colu; i++) {
       for (int j = 0; j < colu; j++) {
         final cellValue = appData.board[i][j];
-
-        if (cellValue != '-' && cellValue != 'b') {
+        if (cellValue != '-' && cellValue != 'b' && cellValue != 'f') {
           final x0 = j * cellWidth;
           final y0 = i * cellHeight;
           final x1 = (j + 1) * cellWidth;
@@ -116,6 +103,41 @@ class WidgetTresRatllaPainter extends CustomPainter {
           );
           final textSpan = TextSpan(
             text: cellValue,
+            style: textStyle,
+          );
+          final textPainter = TextPainter(
+            text: textSpan,
+            textDirection: TextDirection.ltr,
+          )..layout();
+
+          // Calculamos las coordenadas para centrar el texto
+          final textX = cX - textPainter.width / 2;
+          final textY = cY - textPainter.height / 2;
+
+          // Centramos el cuadro del texto
+          final textRect = Rect.fromPoints(
+            Offset(textX, textY),
+            Offset(textX + textPainter.width, textY + textPainter.height),
+          );
+
+          textPainter.paint(canvas, textRect.topLeft);
+        }
+        if (cellValue == 'f') {
+          final x0 = j * cellWidth;
+          final y0 = i * cellHeight;
+          final x1 = (j + 1) * cellWidth;
+          final y1 = (i + 1) * cellHeight;
+
+          // Calculamos el centro de la casilla
+          final cX = (x0 + x1) / 2;
+          final cY = (y0 + y1) / 2;
+
+          final textStyle = TextStyle(
+            fontSize: 24.0,
+            color: Colors.black,
+          );
+          final textSpan = TextSpan(
+            text: appData.bandera,
             style: textStyle,
           );
           final textPainter = TextPainter(

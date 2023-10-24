@@ -8,10 +8,13 @@ class AppData with ChangeNotifier {
   String tablero = "9x9"; // Opción predeterminada
   int numero = 9;
   int minas = 5;
+  String bandera = ".";
 
   List<List<String>> board = [];
+  List<List<int>> bombLocations = [];
   bool gameIsOver = false;
   String gameWinner = '-';
+  int numFlags = 5;
 
   ui.Image? imagePlayer;
   ui.Image? imageOpponent;
@@ -33,6 +36,7 @@ class AppData with ChangeNotifier {
     while (addedBs < numBs) {
       final row = random.nextInt(numRows);
       final col = random.nextInt(numCols);
+      bombLocations.add([row, col]);
 
       if (updatedBoard[row][col] == '-') {
         updatedBoard[row][col] = 'b';
@@ -326,7 +330,7 @@ class AppData with ChangeNotifier {
         print(row.join(' '));
       }
     }
-
+    bandera = ".";
     gameIsOver = false;
     gameWinner = '-';
   }
@@ -339,6 +343,41 @@ class AppData with ChangeNotifier {
     if (board[row][col] == 'b') {
       gameWinner = "Has explotado una bomba";
     }
+    for (var row in board) {
+      print(row.join(' '));
+    }
+  }
+
+  void flags(int row, int col) {
+    if ((board[row][col] != 'f' && board[row][col] == '-') ||
+        (board[row][col] != 'f' && board[row][col] == 'b')) {
+      if (numFlags == 0) {
+        return;
+      }
+      board[row][col] = 'f';
+      numFlags--;
+    } else if (board[row][col] == 'f') {
+      print("hola");
+      for (var location in bombLocations) {
+        int row1 = location[0];
+        int col1 = location[1];
+        if (row1 == row && col1 == col) {
+          board[row][col] = 'b';
+          numFlags++;
+          break;
+        }
+      }
+      if (board[row][col] == 'f') {
+        board[row][col] = '-';
+        numFlags++;
+      }
+    }
+
+    for (var row in board) {
+      print(row.join(' '));
+    }
+    bandera = "F";
+    print(numFlags);
   }
 
   void revealCell(int row, int col) {

@@ -61,6 +61,7 @@ class LayoutSettingsState extends State<LayoutSettings> {
                           int.parse(appData.tablero.split('x').first);
                     } else if (type == "minas") {
                       appData.minas = options[index];
+                      appData.numFlags = options[index];
                     }
                     setState(() {});
                   },
