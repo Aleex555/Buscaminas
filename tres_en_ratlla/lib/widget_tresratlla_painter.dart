@@ -100,14 +100,15 @@ class WidgetTresRatllaPainter extends CustomPainter {
       for (int j = 0; j < colu; j++) {
         final cellValue = appData.board[i][j];
 
-        if (cellValue != '0' && cellValue != 'b') {
-          // Dibujar el número en la celda
+        if (cellValue != '-' && cellValue != 'b') {
           final x0 = j * cellWidth;
           final y0 = i * cellHeight;
           final x1 = (j + 1) * cellWidth;
           final y1 = (i + 1) * cellHeight;
-          final cX = x0 + (x1 - x0) / 2;
-          final cY = y0 + (y1 - y0) / 2;
+
+          // Calculamos el centro de la casilla
+          final cX = (x0 + x1) / 2;
+          final cY = (y0 + y1) / 2;
 
           final textStyle = TextStyle(
             fontSize: 24.0,
@@ -120,13 +121,19 @@ class WidgetTresRatllaPainter extends CustomPainter {
           final textPainter = TextPainter(
             text: textSpan,
             textDirection: TextDirection.ltr,
-          )..layout(
-              minWidth: cellWidth,
-              maxWidth: cellWidth,
-            );
+          )..layout();
+
+          // Calculamos las coordenadas para centrar el texto
           final textX = cX - textPainter.width / 2;
           final textY = cY - textPainter.height / 2;
-          textPainter.paint(canvas, Offset(textX, textY));
+
+          // Centramos el cuadro del texto
+          final textRect = Rect.fromPoints(
+            Offset(textX, textY),
+            Offset(textX + textPainter.width, textY + textPainter.height),
+          );
+
+          textPainter.paint(canvas, textRect.topLeft);
         }
       }
     }
