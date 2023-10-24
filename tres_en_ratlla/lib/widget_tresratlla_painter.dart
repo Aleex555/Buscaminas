@@ -141,7 +141,7 @@ class WidgetTresRatllaPainter extends CustomPainter {
 
   // Dibuixa el missatge de joc acabat
   void drawGameOver(Canvas canvas, Size size) {
-    String message = "El joc ha acabat. Ha guanyat ${appData.gameWinner}!";
+    String message = appData.gameWinner;
 
     const textStyle = TextStyle(
       color: Colors.black,

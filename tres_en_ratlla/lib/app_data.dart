@@ -337,7 +337,7 @@ class AppData with ChangeNotifier {
       revealCell(row, col);
     }
     if (board[row][col] == 'b') {
-      print("BOOOOM");
+      gameWinner = "Has explotado una bomba";
     }
   }
 
@@ -345,7 +345,6 @@ class AppData with ChangeNotifier {
     if (gameIsOver || board[row][col] != '-') {
       return; // No puedes descubrir una casilla que ya ha sido revelada o que contiene una bomba
     }
-
     int bombCount = countAdjacentBombs(row, col);
     board[row][col] = bombCount.toString();
 
