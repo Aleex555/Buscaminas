@@ -93,50 +93,40 @@ class WidgetTresRatllaPainter extends CustomPainter {
 
   // Dibuixa el taulell de joc (creus i rodones)
   void drawBoardStatus(Canvas canvas, Size size) {
-    // Dibuixar 'X' i 'O' del tauler
-
-    //CAMBIO
-
     double cellWidth = size.width / colu;
     double cellHeight = size.height / colu;
 
     for (int i = 0; i < colu; i++) {
       for (int j = 0; j < colu; j++) {
-        if (appData.board[i][j] == 'X') {
-          // Dibuixar una X amb el color del jugador
-          Color color = Colors.blue;
-          switch (appData.tablero) {
-            case "9x9":
-              colu = 9;
-              break;
-            case "15x15":
-              colu = 15;
-              break;
-            case "Gris":
-              color = Colors.grey;
-              break;
-          }
-          double x0 = j * cellWidth;
-          double y0 = i * cellHeight;
-          double x1 = (j + 1) * cellWidth;
-          double y1 = (i + 1) * cellHeight;
+        final cellValue = appData.board[i][j];
 
-          drawImage(canvas, appData.imagePlayer!, x0, y0, x1, y1);
-          drawCross(canvas, x0, y0, x1, y1, color, 5.0);
-        } else if (appData.board[i][j] == 'O') {
-          // Dibuixar una O amb el color de l'oponent
-          Color color = Colors.blue;
+        if (cellValue != '0' && cellValue != 'b') {
+          // Dibujar el número en la celda
+          final x0 = j * cellWidth;
+          final y0 = i * cellHeight;
+          final x1 = (j + 1) * cellWidth;
+          final y1 = (i + 1) * cellHeight;
+          final cX = x0 + (x1 - x0) / 2;
+          final cY = y0 + (y1 - y0) / 2;
 
-          double x0 = j * cellWidth;
-          double y0 = i * cellHeight;
-          double x1 = (j + 1) * cellWidth;
-          double y1 = (i + 1) * cellHeight;
-          double cX = x0 + (x1 - x0) / 2;
-          double cY = y0 + (y1 - y0) / 2;
-          double radius = (min(cellWidth, cellHeight) / 2) - 5;
-
-          drawImage(canvas, appData.imageOpponent!, x0, y0, x1, y1);
-          drawCircle(canvas, cX, cY, radius, color, 5.0);
+          final textStyle = TextStyle(
+            fontSize: 24.0,
+            color: Colors.black,
+          );
+          final textSpan = TextSpan(
+            text: cellValue,
+            style: textStyle,
+          );
+          final textPainter = TextPainter(
+            text: textSpan,
+            textDirection: TextDirection.ltr,
+          )..layout(
+              minWidth: cellWidth,
+              maxWidth: cellWidth,
+            );
+          final textX = cX - textPainter.width / 2;
+          final textY = cY - textPainter.height / 2;
+          textPainter.paint(canvas, Offset(textX, textY));
         }
       }
     }

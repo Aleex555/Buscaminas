@@ -57,6 +57,9 @@ class AppData with ChangeNotifier {
         ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
       ];
       board = addRandomBs(board, minas);
+      for (var row in board) {
+        print(row.join(' '));
+      }
     } else if (numero == 15) {
       board = [
         [
@@ -319,6 +322,9 @@ class AppData with ChangeNotifier {
       for (var row in board) {
         print(row.join(' '));
       }
+      for (var row in board) {
+        print(row.join(' '));
+      }
     }
 
     gameIsOver = false;
@@ -328,83 +334,49 @@ class AppData with ChangeNotifier {
   // Fa una jugada, primer el jugador després la maquina
   void playMove(int row, int col) {
     if (board[row][col] == '-') {
-      board[row][col] = 'X';
-      checkGameWinner();
-      if (gameWinner == '-') {
-        machinePlay();
-      }
+      revealCell(row, col);
     }
     if (board[row][col] == 'b') {
       print("BOOOOM");
-      checkGameWinner();
-      if (gameWinner == '-') {
-        machinePlay();
-      }
     }
   }
 
-  // Fa una jugada de la màquina, només busca la primera posició lliure
-  void machinePlay() {
-    bool moveMade = false;
+  void revealCell(int row, int col) {
+    if (gameIsOver || board[row][col] != '-') {
+      return; // No puedes descubrir una casilla que ya ha sido revelada o que contiene una bomba
+    }
 
-    // Buscar una casella lliure '-'
-    for (int i = 0; i < numero; i++) {
-      for (int j = 0; j < numero; j++) {
-        if (board[i][j] == '-') {
-          board[i][j] = 'O';
-          moveMade = true;
-          break;
+    int bombCount = countAdjacentBombs(row, col);
+    board[row][col] = bombCount.toString();
+
+    if (bombCount == 0) {
+      for (int r = row - 1; r <= row + 1; r++) {
+        for (int c = col - 1; c <= col + 1; c++) {
+          if (isValidCell(r, c) && board[r][c] == '-' && !gameIsOver) {
+            revealCell(
+                r, c); // Llamada recursiva para casillas adyacentes vacías
+          }
         }
       }
-      if (moveMade) break;
     }
-
-    checkGameWinner();
   }
 
-  // Comprova si el joc ja té un tres en ratlla
-  // No comprova la situació d'empat
-  void checkGameWinner() {
-    for (int i = 0; i < 3; i++) {
-      // Comprovar files
-      if (board[i][0] == board[i][1] &&
-          board[i][1] == board[i][2] &&
-          board[i][0] != '-') {
-        gameIsOver = true;
-        gameWinner = board[i][0];
-        return;
-      }
-
-      // Comprovar columnes
-      if (board[0][i] == board[1][i] &&
-          board[1][i] == board[2][i] &&
-          board[0][i] != '-') {
-        gameIsOver = true;
-        gameWinner = board[0][i];
-        return;
+  // Función para contar las bombas en casillas adyacentes
+  int countAdjacentBombs(int row, int col) {
+    int bombCount = 0;
+    for (int r = row - 1; r <= row + 1; r++) {
+      for (int c = col - 1; c <= col + 1; c++) {
+        if (isValidCell(r, c) && board[r][c] == 'b') {
+          bombCount++;
+        }
       }
     }
+    return bombCount;
+  }
 
-    // Comprovar diagonal principal
-    if (board[0][0] == board[1][1] &&
-        board[1][1] == board[2][2] &&
-        board[0][0] != '-') {
-      gameIsOver = true;
-      gameWinner = board[0][0];
-      return;
-    }
-
-    // Comprovar diagonal secundària
-    if (board[0][2] == board[1][1] &&
-        board[1][1] == board[2][0] &&
-        board[0][2] != '-') {
-      gameIsOver = true;
-      gameWinner = board[0][2];
-      return;
-    }
-
-    // No hi ha guanyador, torna '-'
-    gameWinner = '-';
+  // Función para verificar si una casilla es válida
+  bool isValidCell(int row, int col) {
+    return row >= 0 && row < numero && col >= 0 && col < numero;
   }
 
   // Carrega les imatges per dibuixar-les al Canvas
