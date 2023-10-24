@@ -137,7 +137,7 @@ class WidgetTresRatllaPainter extends CustomPainter {
             color: Colors.black,
           );
           final textSpan = TextSpan(
-            text: appData.bandera,
+            text: "f",
             style: textStyle,
           );
           final textPainter = TextPainter(

@@ -8,7 +8,6 @@ class AppData with ChangeNotifier {
   String tablero = "9x9"; // Opción predeterminada
   int numero = 9;
   int minas = 5;
-  String bandera = ".";
 
   List<List<String>> board = [];
   List<List<int>> bombLocations = [];
@@ -330,7 +329,6 @@ class AppData with ChangeNotifier {
         print(row.join(' '));
       }
     }
-    bandera = ".";
     gameIsOver = false;
     gameWinner = '-';
   }
@@ -357,7 +355,6 @@ class AppData with ChangeNotifier {
       board[row][col] = 'f';
       numFlags--;
     } else if (board[row][col] == 'f') {
-      print("hola");
       for (var location in bombLocations) {
         int row1 = location[0];
         int col1 = location[1];
@@ -376,7 +373,6 @@ class AppData with ChangeNotifier {
     for (var row in board) {
       print(row.join(' '));
     }
-    bandera = "F";
     print(numFlags);
   }
 
