@@ -11,6 +11,7 @@ class AppData with ChangeNotifier {
 
   List<List<String>> board = [];
   List<List<int>> bombLocations = [];
+  List<List<int>> flagsLocations = [];
   bool gameIsOver = false;
   String gameWinner = '-';
   int numFlags = 5;
@@ -331,16 +332,30 @@ class AppData with ChangeNotifier {
     }
     gameIsOver = false;
     gameWinner = '-';
+    numFlags = minas;
   }
 
   // Fa una jugada, primer el jugador després la maquina
   void playMove(int row, int col) {
+    bool terminar = true;
     if (board[row][col] == '-') {
       revealCell(row, col);
     }
     if (board[row][col] == 'b') {
       gameWinner = "Has explotado una bomba";
     }
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[i].length; j++) {
+        if (board[i][j] == 'b' || board[i][j] == '-') {
+          terminar = false;
+          break;
+        }
+      }
+    }
+    if (terminar) {
+      gameWinner = "Has Ganado";
+    }
+
     for (var row in board) {
       print(row.join(' '));
     }
@@ -353,12 +368,14 @@ class AppData with ChangeNotifier {
         return;
       }
       board[row][col] = 'f';
+      flagsLocations.add([row, col]);
       numFlags--;
     } else if (board[row][col] == 'f') {
       for (var location in bombLocations) {
         int row1 = location[0];
         int col1 = location[1];
         if (row1 == row && col1 == col) {
+          flagsLocations.remove([row, col]);
           board[row][col] = 'b';
           numFlags++;
           break;
@@ -366,6 +383,7 @@ class AppData with ChangeNotifier {
       }
       if (board[row][col] == 'f') {
         board[row][col] = '-';
+        flagsLocations.remove([row, col]);
         numFlags++;
       }
     }
