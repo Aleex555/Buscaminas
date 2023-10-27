@@ -87,7 +87,10 @@ class WidgetTresRatllaPainter extends CustomPainter {
     for (int i = 0; i < colu; i++) {
       for (int j = 0; j < colu; j++) {
         final cellValue = appData.board[i][j];
-        if (cellValue != '-' && cellValue != 'b' && cellValue != 'f') {
+        if (cellValue != '-' &&
+            cellValue != 'b' &&
+            cellValue != 'f' &&
+            cellValue != 'bf') {
           final x0 = j * cellWidth;
           final y0 = i * cellHeight;
           final x1 = (j + 1) * cellWidth;
@@ -122,7 +125,7 @@ class WidgetTresRatllaPainter extends CustomPainter {
 
           textPainter.paint(canvas, textRect.topLeft);
         }
-        if (cellValue == 'f') {
+        if (cellValue == 'f' || cellValue == 'bf') {
           final x0 = j * cellWidth;
           final y0 = i * cellHeight;
           final x1 = (j + 1) * cellWidth;

@@ -366,26 +366,22 @@ class AppData with ChangeNotifier {
         (board[row][col] != 'f' && board[row][col] == 'b')) {
       if (numFlags == 0) {
         return;
+      } else if (board[row][col] == 'b') {
+        board[row][col] = 'bf';
+        numFlags--;
+      } else {
+        board[row][col] = 'f';
+        flagsLocations.add([row, col]);
+        numFlags--;
       }
-      board[row][col] = 'f';
-      flagsLocations.add([row, col]);
-      numFlags--;
-    } else if (board[row][col] == 'f') {
-      for (var location in bombLocations) {
-        int row1 = location[0];
-        int col1 = location[1];
-        if (row1 == row && col1 == col) {
-          flagsLocations.remove([row, col]);
-          board[row][col] = 'b';
-          numFlags++;
-          break;
-        }
-      }
-      if (board[row][col] == 'f') {
-        board[row][col] = '-';
-        flagsLocations.remove([row, col]);
-        numFlags++;
-      }
+    } else if (board[row][col] == 'bf') {
+      flagsLocations.remove([row, col]);
+      board[row][col] = 'b';
+      numFlags++;
+    } else {
+      board[row][col] = '-';
+      flagsLocations.remove([row, col]);
+      numFlags++;
     }
 
     for (var row in board) {
@@ -418,7 +414,7 @@ class AppData with ChangeNotifier {
     int bombCount = 0;
     for (int r = row - 1; r <= row + 1; r++) {
       for (int c = col - 1; c <= col + 1; c++) {
-        if (isValidCell(r, c) && board[r][c] == 'b') {
+        if (isValidCell(r, c) && (board[r][c] == 'b' || board[r][c] == 'bf')) {
           bombCount++;
         }
       }
