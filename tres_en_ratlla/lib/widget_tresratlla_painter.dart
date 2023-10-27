@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart'; // per a 'CustomPainter'
 import 'app_data.dart';
@@ -126,39 +127,27 @@ class WidgetTresRatllaPainter extends CustomPainter {
           textPainter.paint(canvas, textRect.topLeft);
         }
         if (cellValue == 'f' || cellValue == 'bf') {
-          final x0 = j * cellWidth;
-          final y0 = i * cellHeight;
-          final x1 = (j + 1) * cellWidth;
-          final y1 = (i + 1) * cellHeight;
+          double x0 = j * cellWidth;
+          double y0 = i * cellHeight;
+          double x1 = (j + 1) * cellWidth;
+          double y1 = (i + 1) * cellHeight;
+          double cX = x0 + (x1 - x0) / 2;
+          double cY = y0 + (y1 - y0) / 2;
+          double radius = (min(cellWidth, cellHeight) / 2) - 5;
 
-          // Calculamos el centro de la casilla
-          final cX = (x0 + x1) / 2;
-          final cY = (y0 + y1) / 2;
+          drawImage(canvas, appData.imageOpponent!, x0, y0, x1, y1);
+        }
 
-          final textStyle = TextStyle(
-            fontSize: 24.0,
-            color: Colors.black,
-          );
-          final textSpan = TextSpan(
-            text: "f",
-            style: textStyle,
-          );
-          final textPainter = TextPainter(
-            text: textSpan,
-            textDirection: TextDirection.ltr,
-          )..layout();
+        if (cellValue == "x") {
+          double x0 = j * cellWidth;
+          double y0 = i * cellHeight;
+          double x1 = (j + 1) * cellWidth;
+          double y1 = (i + 1) * cellHeight;
+          double cX = x0 + (x1 - x0) / 2;
+          double cY = y0 + (y1 - y0) / 2;
+          double radius = (min(cellWidth, cellHeight) / 2) - 5;
 
-          // Calculamos las coordenadas para centrar el texto
-          final textX = cX - textPainter.width / 2;
-          final textY = cY - textPainter.height / 2;
-
-          // Centramos el cuadro del texto
-          final textRect = Rect.fromPoints(
-            Offset(textX, textY),
-            Offset(textX + textPainter.width, textY + textPainter.height),
-          );
-
-          textPainter.paint(canvas, textRect.topLeft);
+          drawImage(canvas, appData.bomba!, x0, y0, x1, y1);
         }
       }
     }

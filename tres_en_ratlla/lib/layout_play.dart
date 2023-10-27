@@ -9,14 +9,13 @@ class LayoutPlay extends StatefulWidget {
   const LayoutPlay({Key? key}) : super(key: key);
 
   @override
-  LayoutPlayState createState() => LayoutPlayState(AppData as AppData);
+  // ignore: no_logic_in_create_state
+  LayoutPlayState createState() => LayoutPlayState();
 }
 
 class LayoutPlayState extends State<LayoutPlay> {
-  final AppData appData;
   late int secondsElapsed;
   late Timer timer;
-  LayoutPlayState(this.appData);
 
   @override
   void initState() {
@@ -51,6 +50,8 @@ class LayoutPlayState extends State<LayoutPlay> {
 
   @override
   Widget build(BuildContext context) {
+    AppData appData = Provider.of<AppData>(context);
+
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text(
@@ -184,7 +185,8 @@ class LayoutPlayState extends State<LayoutPlay> {
                             vertical: 20, // Ajusta el espacio vertical aquí
                           ),
                           child: Text(
-                            "5", // Reemplaza con la cantidad real de banderas
+                            appData.numFlags
+                                .toString(), // Reemplaza con la cantidad real de banderas
                             style: TextStyle(
                               fontSize: 24,
                               color: Colors.white,

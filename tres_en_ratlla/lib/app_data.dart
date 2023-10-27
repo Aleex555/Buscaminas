@@ -18,6 +18,7 @@ class AppData with ChangeNotifier {
 
   ui.Image? imagePlayer;
   ui.Image? imageOpponent;
+  ui.Image? bomba;
   bool imagesReady = false;
 
   List<List<String>> addRandomBs(List<List<String>> board, int numBs) {
@@ -342,6 +343,7 @@ class AppData with ChangeNotifier {
       revealCell(row, col);
     }
     if (board[row][col] == 'b') {
+      board[row][col] = 'x';
       gameWinner = "Has explotado una bomba";
     }
     for (int i = 0; i < board.length; i++) {
@@ -439,7 +441,8 @@ class AppData with ChangeNotifier {
     await Future.delayed(const Duration(milliseconds: 500));
 
     Image tmpPlayer = Image.asset('assets/images/player.png');
-    Image tmpOpponent = Image.asset('assets/images/opponent.png');
+    Image tmpOpponent = Image.asset('assets/images/bandera.jpg');
+    Image tmpBomba = Image.asset('assets/images/bomba.png');
 
     // Carrega les imatges
     if (context.mounted) {
@@ -447,6 +450,9 @@ class AppData with ChangeNotifier {
     }
     if (context.mounted) {
       imageOpponent = await convertWidgetToUiImage(tmpOpponent);
+    }
+    if (context.mounted) {
+      bomba = await convertWidgetToUiImage(tmpBomba);
     }
 
     imagesReady = true;
