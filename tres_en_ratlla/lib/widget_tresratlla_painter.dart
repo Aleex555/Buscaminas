@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart'; // per a 'CustomPainter'
 import 'app_data.dart';
@@ -88,54 +87,50 @@ class WidgetTresRatllaPainter extends CustomPainter {
     for (int i = 0; i < colu; i++) {
       for (int j = 0; j < colu; j++) {
         final cellValue = appData.board[i][j];
+        if (cellValue == "-"  || cellValue == "b"){
+          double x0 = j * cellWidth;
+          double y0 = i * cellHeight;
+          double x1 = (j + 1) * cellWidth;
+          double y1 = (i + 1) * cellHeight;
+
+          drawImage(canvas, appData.imageCuadrado!, x0, y0, x1, y1);
+        }
         if (cellValue != '-' &&
             cellValue != 'b' &&
             cellValue != 'f' &&
             cellValue != 'bf') {
-          final x0 = j * cellWidth;
-          final y0 = i * cellHeight;
-          final x1 = (j + 1) * cellWidth;
-          final y1 = (i + 1) * cellHeight;
+          if (cellValue == "1"){
+            double x0 = j * cellWidth;
+          double y0 = i * cellHeight;
+          double x1 = (j + 1) * cellWidth;
+          double y1 = (i + 1) * cellHeight;
 
-          // Calculamos el centro de la casilla
-          final cX = (x0 + x1) / 2;
-          final cY = (y0 + y1) / 2;
+          drawImage(canvas, appData.image1!, x0, y0, x1, y1);
+          }
+          if (cellValue == "2"){
+            double x0 = j * cellWidth;
+          double y0 = i * cellHeight;
+          double x1 = (j + 1) * cellWidth;
+          double y1 = (i + 1) * cellHeight;
 
-          final textStyle = TextStyle(
-            fontSize: 24.0,
-            color: Colors.black,
-          );
-          final textSpan = TextSpan(
-            text: cellValue,
-            style: textStyle,
-          );
-          final textPainter = TextPainter(
-            text: textSpan,
-            textDirection: TextDirection.ltr,
-          )..layout();
+          drawImage(canvas, appData.image2!, x0, y0, x1, y1);
+          }
+          if (cellValue == "3"){
+            double x0 = j * cellWidth;
+          double y0 = i * cellHeight;
+          double x1 = (j + 1) * cellWidth;
+          double y1 = (i + 1) * cellHeight;
 
-          // Calculamos las coordenadas para centrar el texto
-          final textX = cX - textPainter.width / 2;
-          final textY = cY - textPainter.height / 2;
-
-          // Centramos el cuadro del texto
-          final textRect = Rect.fromPoints(
-            Offset(textX, textY),
-            Offset(textX + textPainter.width, textY + textPainter.height),
-          );
-
-          textPainter.paint(canvas, textRect.topLeft);
+          drawImage(canvas, appData.image3!, x0, y0, x1, y1);
+          }
         }
         if (cellValue == 'f' || cellValue == 'bf') {
           double x0 = j * cellWidth;
           double y0 = i * cellHeight;
           double x1 = (j + 1) * cellWidth;
           double y1 = (i + 1) * cellHeight;
-          double cX = x0 + (x1 - x0) / 2;
-          double cY = y0 + (y1 - y0) / 2;
-          double radius = (min(cellWidth, cellHeight) / 2) - 5;
 
-          drawImage(canvas, appData.imageOpponent!, x0, y0, x1, y1);
+          drawImage(canvas, appData.imageBandera!, x0, y0, x1, y1);
         }
 
         if (cellValue == "x") {
@@ -143,9 +138,6 @@ class WidgetTresRatllaPainter extends CustomPainter {
           double y0 = i * cellHeight;
           double x1 = (j + 1) * cellWidth;
           double y1 = (i + 1) * cellHeight;
-          double cX = x0 + (x1 - x0) / 2;
-          double cY = y0 + (y1 - y0) / 2;
-          double radius = (min(cellWidth, cellHeight) / 2) - 5;
 
           drawImage(canvas, appData.bomba!, x0, y0, x1, y1);
         }

@@ -16,9 +16,12 @@ class AppData with ChangeNotifier {
   String gameWinner = '-';
   int numFlags = 5;
 
-  ui.Image? imagePlayer;
-  ui.Image? imageOpponent;
+  ui.Image? image1;
+  ui.Image? imageBandera;
   ui.Image? bomba;
+  ui.Image? image2;
+  ui.Image? image3;
+  ui.Image? imageCuadrado;
   bool imagesReady = false;
 
   List<List<String>> addRandomBs(List<List<String>> board, int numBs) {
@@ -348,7 +351,7 @@ class AppData with ChangeNotifier {
     }
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
-        if (board[i][j] == 'b' || board[i][j] == '-') {
+        if (board[i][j] == '-') {
           terminar = false;
           break;
         }
@@ -403,8 +406,7 @@ class AppData with ChangeNotifier {
       for (int r = row - 1; r <= row + 1; r++) {
         for (int c = col - 1; c <= col + 1; c++) {
           if (isValidCell(r, c) && board[r][c] == '-' && !gameIsOver) {
-            revealCell(
-                r, c); // Llamada recursiva para casillas adyacentes vacías
+            revealCell(r, c); // Llamada recursiva para casillas adyacentes vacías
           }
         }
       }
@@ -440,19 +442,31 @@ class AppData with ChangeNotifier {
     // Força simular un loading
     await Future.delayed(const Duration(milliseconds: 500));
 
-    Image tmpPlayer = Image.asset('assets/images/player.png');
-    Image tmpOpponent = Image.asset('assets/images/bandera.jpg');
+    Image tmp1 = Image.asset('assets/images/1.png');
+    Image tmpBandera = Image.asset('assets/images/bandera.jpg');
     Image tmpBomba = Image.asset('assets/images/bomba.png');
+    Image tmp2 = Image.asset('assets/images/2.png');
+    Image tmp3 = Image.asset('assets/images/3.png');
+    Image tmpCuadrado = Image.asset('assets/images/cuadrado.png');
 
     // Carrega les imatges
     if (context.mounted) {
-      imagePlayer = await convertWidgetToUiImage(tmpPlayer);
+      image1 = await convertWidgetToUiImage(tmp1);
     }
     if (context.mounted) {
-      imageOpponent = await convertWidgetToUiImage(tmpOpponent);
+      imageBandera = await convertWidgetToUiImage(tmpBandera);
     }
     if (context.mounted) {
       bomba = await convertWidgetToUiImage(tmpBomba);
+    }
+    if (context.mounted) {
+      image2 = await convertWidgetToUiImage(tmp2);
+    }
+    if (context.mounted) {
+      image3 = await convertWidgetToUiImage(tmp3);
+    }
+    if (context.mounted) {
+      imageCuadrado = await convertWidgetToUiImage(tmpCuadrado);
     }
 
     imagesReady = true;
