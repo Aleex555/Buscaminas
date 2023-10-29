@@ -21,6 +21,7 @@ class AppData with ChangeNotifier {
   ui.Image? bomba;
   ui.Image? image2;
   ui.Image? image3;
+  ui.Image? image4;
   ui.Image? imageCuadrado;
   bool imagesReady = false;
 
@@ -406,7 +407,8 @@ class AppData with ChangeNotifier {
       for (int r = row - 1; r <= row + 1; r++) {
         for (int c = col - 1; c <= col + 1; c++) {
           if (isValidCell(r, c) && board[r][c] == '-' && !gameIsOver) {
-            revealCell(r, c); // Llamada recursiva para casillas adyacentes vacías
+            revealCell(
+                r, c); // Llamada recursiva para casillas adyacentes vacías
           }
         }
       }
@@ -447,6 +449,7 @@ class AppData with ChangeNotifier {
     Image tmpBomba = Image.asset('assets/images/bomba.png');
     Image tmp2 = Image.asset('assets/images/2.png');
     Image tmp3 = Image.asset('assets/images/3.png');
+    Image tmp4 = Image.asset('assets/images/4.png');
     Image tmpCuadrado = Image.asset('assets/images/cuadrado.png');
 
     // Carrega les imatges
@@ -467,6 +470,9 @@ class AppData with ChangeNotifier {
     }
     if (context.mounted) {
       imageCuadrado = await convertWidgetToUiImage(tmpCuadrado);
+    }
+    if (context.mounted) {
+      image4 = await convertWidgetToUiImage(tmp4);
     }
 
     imagesReady = true;

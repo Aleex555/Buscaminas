@@ -87,11 +87,11 @@ class WidgetTresRatllaPainter extends CustomPainter {
     for (int i = 0; i < colu; i++) {
       for (int j = 0; j < colu; j++) {
         final cellValue = appData.board[i][j];
-        if (cellValue == "-"  || cellValue == "b"){
-          double x0 = j * cellWidth;
-          double y0 = i * cellHeight;
-          double x1 = (j + 1) * cellWidth;
-          double y1 = (i + 1) * cellHeight;
+        if (cellValue == "-" || cellValue == "b") {
+          double x0 = j * cellWidth - 12;
+          double y0 = i * cellHeight + 0;
+          double x1 = (j + 1) * cellWidth + 10;
+          double y1 = (i + 1) * cellHeight + 5;
 
           drawImage(canvas, appData.imageCuadrado!, x0, y0, x1, y1);
         }
@@ -99,29 +99,37 @@ class WidgetTresRatllaPainter extends CustomPainter {
             cellValue != 'b' &&
             cellValue != 'f' &&
             cellValue != 'bf') {
-          if (cellValue == "1"){
+          if (cellValue == "1") {
             double x0 = j * cellWidth;
-          double y0 = i * cellHeight;
-          double x1 = (j + 1) * cellWidth;
-          double y1 = (i + 1) * cellHeight;
+            double y0 = i * cellHeight + 13;
+            double x1 = (j + 1) * cellWidth;
+            double y1 = (i + 1) * cellHeight - 6;
 
-          drawImage(canvas, appData.image1!, x0, y0, x1, y1);
+            drawImage(canvas, appData.image1!, x0, y0, x1, y1);
           }
-          if (cellValue == "2"){
+          if (cellValue == "2") {
             double x0 = j * cellWidth;
-          double y0 = i * cellHeight;
-          double x1 = (j + 1) * cellWidth;
-          double y1 = (i + 1) * cellHeight;
+            double y0 = i * cellHeight + 13;
+            double x1 = (j + 1) * cellWidth;
+            double y1 = (i + 1) * cellHeight - 6;
 
-          drawImage(canvas, appData.image2!, x0, y0, x1, y1);
+            drawImage(canvas, appData.image2!, x0, y0, x1, y1);
           }
-          if (cellValue == "3"){
+          if (cellValue == "3") {
             double x0 = j * cellWidth;
-          double y0 = i * cellHeight;
-          double x1 = (j + 1) * cellWidth;
-          double y1 = (i + 1) * cellHeight;
+            double y0 = i * cellHeight + 13;
+            double x1 = (j + 1) * cellWidth;
+            double y1 = (i + 1) * cellHeight - 6;
 
-          drawImage(canvas, appData.image3!, x0, y0, x1, y1);
+            drawImage(canvas, appData.image3!, x0, y0, x1, y1);
+          }
+          if (cellValue == "4") {
+            double x0 = j * cellWidth;
+            double y0 = i * cellHeight + 13;
+            double x1 = (j + 1) * cellWidth;
+            double y1 = (i + 1) * cellHeight - 6;
+
+            drawImage(canvas, appData.image4!, x0, y0, x1, y1);
           }
         }
         if (cellValue == 'f' || cellValue == 'bf') {
@@ -150,9 +158,20 @@ class WidgetTresRatllaPainter extends CustomPainter {
     String message = appData.gameWinner;
 
     const textStyle = TextStyle(
-      color: Colors.black,
-      fontSize: 24.0,
+      color: Colors.white, // Color del texto
+      fontSize: 40.0,
       fontWeight: FontWeight.bold,
+      shadows: [
+        Shadow(
+          blurRadius: 4, // Radio de difuminado de la sombra
+          color: Colors.black, // Color de la sombra
+          offset: Offset(2, 2), // Desplazamiento de la sombra
+        ),
+      ],
+      backgroundColor: Colors.blue, // Color de fondo del texto
+      decorationThickness: 2, // Grosor del subrayado
+      fontFamily:
+          'YourCustomFont', // Fuente personalizada (debes tenerla en tu proyecto)
     );
 
     final textPainter = TextPainter(
