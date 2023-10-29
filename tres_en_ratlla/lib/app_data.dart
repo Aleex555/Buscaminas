@@ -66,9 +66,6 @@ class AppData with ChangeNotifier {
         ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
       ];
       board = addRandomBs(board, minas);
-      for (var row in board) {
-        print(row.join(' '));
-      }
     } else if (numero == 15) {
       board = [
         [
@@ -328,12 +325,6 @@ class AppData with ChangeNotifier {
         ],
       ];
       board = addRandomBs(board, minas);
-      for (var row in board) {
-        print(row.join(' '));
-      }
-      for (var row in board) {
-        print(row.join(' '));
-      }
     }
     gameIsOver = false;
     gameWinner = '-';
@@ -348,6 +339,7 @@ class AppData with ChangeNotifier {
     }
     if (board[row][col] == 'b') {
       board[row][col] = 'x';
+      gameIsOver = true;
       gameWinner = "Has explotado una bomba";
     }
     for (int i = 0; i < board.length; i++) {
@@ -359,11 +351,8 @@ class AppData with ChangeNotifier {
       }
     }
     if (terminar) {
+      gameIsOver = true;
       gameWinner = "Has Ganado";
-    }
-
-    for (var row in board) {
-      print(row.join(' '));
     }
   }
 
@@ -389,11 +378,6 @@ class AppData with ChangeNotifier {
       flagsLocations.remove([row, col]);
       numFlags++;
     }
-
-    for (var row in board) {
-      print(row.join(' '));
-    }
-    print(numFlags);
   }
 
   void revealCell(int row, int col) {
