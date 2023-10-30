@@ -1,4 +1,4 @@
-# tres_en_ratlla
+# Buscaminas
 
 A new Flutter project.
 
