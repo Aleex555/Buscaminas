@@ -40,9 +40,8 @@ class WidgetTresRatllaState extends State<WidgetTresRatlla> {
         appData.playMove(row, col);
         setState(() {}); // Actualitza la vista
       },
-      onSecondaryTapUp: (TapUpDetails details) {
+      onDoubleTapDown: (details) {
         final int row =
-            //cambio--------
             (details.localPosition.dy / (context.size!.height / appData.numero))
                 .floor();
         final int col =
@@ -50,7 +49,7 @@ class WidgetTresRatllaState extends State<WidgetTresRatlla> {
                 .floor();
 
         appData.flags(row, col);
-        setState(() {}); // Actualitza la vista
+        setState(() {}); // Actualiza la vista
       },
       child: SizedBox(
         width: MediaQuery.of(context)

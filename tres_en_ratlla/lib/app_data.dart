@@ -357,26 +357,28 @@ class AppData with ChangeNotifier {
   }
 
   void flags(int row, int col) {
-    if ((board[row][col] != 'f' && board[row][col] == '-') ||
-        (board[row][col] != 'f' && board[row][col] == 'b')) {
-      if (numFlags == 0) {
-        return;
-      } else if (board[row][col] == 'b') {
-        board[row][col] = 'bf';
-        numFlags--;
-      } else {
-        board[row][col] = 'f';
-        flagsLocations.add([row, col]);
-        numFlags--;
+    if (!gameIsOver) {
+      if ((board[row][col] != 'f' && board[row][col] == '-') ||
+          (board[row][col] != 'f' && board[row][col] == 'b')) {
+        if (numFlags == 0) {
+          return;
+        } else if (board[row][col] == 'b') {
+          board[row][col] = 'bf';
+          numFlags--;
+        } else {
+          board[row][col] = 'f';
+          flagsLocations.add([row, col]);
+          numFlags--;
+        }
+      } else if (board[row][col] == 'bf') {
+        flagsLocations.remove([row, col]);
+        board[row][col] = 'b';
+        numFlags++;
+      } else if (board[row][col] == 'f') {
+        board[row][col] = '-';
+        flagsLocations.remove([row, col]);
+        numFlags++;
       }
-    } else if (board[row][col] == 'bf') {
-      flagsLocations.remove([row, col]);
-      board[row][col] = 'b';
-      numFlags++;
-    } else {
-      board[row][col] = '-';
-      flagsLocations.remove([row, col]);
-      numFlags++;
     }
   }
 
